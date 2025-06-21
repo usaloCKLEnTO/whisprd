@@ -94,15 +94,16 @@ check_requirements() {
 
 # Function to install Python dependencies
 install_dependencies() {
-    print_status "Installing Python dependencies with uv..."
+    print_status "Installing Python dependencies globally for the user..."
+
+    # Use system pip3 to install all dependencies for the user
+    /usr/bin/pip3 install --user --upgrade pip
+    /usr/bin/pip3 install --user -r requirements.txt
     
-    if ! command_exists uv; then
-        print_status "Installing uv (requires pipx)..."
-        pipx install uv
-    fi
-    
-    uv sync
-    print_success "Python dependencies installed"
+    print_success "Python dependencies installed for user $(whoami)"
+    echo
+    echo "[INFO] The GUI requires system Python (not a venv) to access GTK bindings."
+    echo "      All dependencies are now available to your user-wide Python 3."
 }
 
 # Function to setup permissions
@@ -148,11 +149,13 @@ install_system_files() {
     # Copy files
     sudo cp -r whisprd/ $INSTALL_DIR/
     sudo cp whisprd_cli.py $INSTALL_DIR/
+    sudo cp whisprd_gui.py $INSTALL_DIR/
     sudo cp config.yaml $INSTALL_DIR/
     sudo cp requirements.txt $INSTALL_DIR/
     
-    # Make CLI executable
+    # Make executables
     sudo chmod +x $INSTALL_DIR/whisprd_cli.py
+    sudo chmod +x $INSTALL_DIR/whisprd_gui.py
     
     # Set ownership
     sudo chown -R $USER:$USER $INSTALL_DIR
@@ -207,18 +210,18 @@ setup_configuration() {
 
 # Function to create desktop entry
 create_desktop_entry() {
-    print_status "Creating desktop entry..."
+    print_status "Creating desktop entries..."
     
     # Create applications directory
     mkdir -p $HOME/.local/share/applications
     
-    # Create desktop entry
-    cat > $HOME/.local/share/applications/whisprd.desktop << EOF
+    # Create CLI desktop entry
+    cat > $HOME/.local/share/applications/whisprd-cli.desktop << EOF
 [Desktop Entry]
 Version=1.0
 Type=Application
-Name=Whisprd
-Comment=Real-time Whisper-powered dictation system
+Name=Whisprd (CLI)
+Comment=Real-time Whisper-powered dictation system (Command Line)
 Exec=$INSTALL_DIR/whisprd_cli.py
 Icon=audio-input-microphone
 Terminal=true
@@ -226,7 +229,21 @@ Categories=AudioVideo;Audio;Utility;
 Keywords=dictation;speech;whisper;voice;
 EOF
     
-    print_success "Desktop entry created"
+    # Create GUI desktop entry
+    cat > $HOME/.local/share/applications/whisprd-gui.desktop << EOF
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Whisprd (GUI)
+Comment=Real-time Whisper-powered dictation system (Graphical Interface)
+Exec=$INSTALL_DIR/whisprd_gui.py
+Icon=audio-input-microphone
+Terminal=false
+Categories=AudioVideo;Audio;Utility;
+Keywords=dictation;speech;whisper;voice;
+EOF
+    
+    print_success "Desktop entries created"
 }
 
 # Function to run tests
@@ -259,15 +276,18 @@ show_post_install() {
     echo "Next steps:"
     echo "1. Log out and log back in for group permissions to take effect"
     echo "2. Load uinput module: sudo modprobe uinput"
-    echo "3. Test the system: $INSTALL_DIR/whisprd_cli.py"
-    echo "4. Start the service: systemctl --user start whisprd"
-    echo "5. Enable auto-start: systemctl --user enable whisprd"
+    echo "3. Test the CLI: $INSTALL_DIR/whisprd_cli.py"
+    echo "4. Test the GUI: $INSTALL_DIR/whisprd_gui.py"
+    echo "5. Start the service: systemctl --user start whisprd"
+    echo "6. Enable auto-start: systemctl --user enable whisprd"
     echo
     echo "Configuration:"
     echo "- Edit: $HOME/.config/whisprd/config.yaml"
     echo "- Transcripts: $HOME/.local/share/whisprd/"
     echo
     echo "Usage:"
+    echo "- CLI: $INSTALL_DIR/whisprd_cli.py"
+    echo "- GUI: $INSTALL_DIR/whisprd_gui.py"
     echo "- Press Ctrl+Alt+D to toggle dictation"
     echo "- Say 'computer' to activate command mode"
     echo "- Say 'stop listening' to stop dictation"

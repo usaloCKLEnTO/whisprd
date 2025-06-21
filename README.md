@@ -7,14 +7,14 @@ A powerful, real-time dictation system for Linux that uses OpenAI's Whisper mode
 
 FYI this is a personal project by [@AgenticToaster](https://github.com/AgenticToaster) - built to solve a specific problem I had with dictation. This is not a business or community project, just something I found helpful and wanted to share.
 
-## 🎯 What This Is
+## What This Is
 
 - **Personal Project**: Built by me, for me, shared with you
 - **Problem Solver**: Created to address my own dictation needs
 - **Open Source**: Feel free to use, modify, or take ownership
 - **Low Maintenance**: I'll update when I can, but it's not my top priority
 
-## 🤝 Contributing
+## Contributing
 
 **You're welcome to contribute!** But please understand:
 
@@ -28,7 +28,7 @@ If you find this useful and want to keep it updated, consider:
 - Submitting PRs (I'll review when I can)
 - Taking over maintenance if you're passionate about it
 
-## 🚀 Features
+## Features
 
 - **Real-time Speech Recognition**: Uses faster-whisper for GPU-accelerated transcription
 - **CUDA GPU Support**: Automatic GPU acceleration with fallback to CPU
@@ -44,7 +44,38 @@ If you find this useful and want to keep it updated, consider:
 - **Pause Duration Control**: Configurable silence detection for utterance boundaries
 - **Alternate Prompts**: Load custom prompts from YAML files for different use cases
 
-## 🎯 Use Cases
+## GUI Interface
+
+Whisprd now includes a modern DearPyGui-based graphical interface for easy control and configuration:
+
+- **Modern DearPyGui Interface**: Fast, cross-platform GUI with automatic HiDPI/fractional scaling support
+- **Control Panel**: Start/stop engine, toggle dictation, pause/resume with visual buttons
+- **Status Panel**: Real-time engine status, queue sizes, and statistics display
+- **Transcription Panel**: Live transcription display with historical view and save functionality
+- **Configuration Panel**: 6 organized tabs for all settings (Audio, Whisper, Whisprd, Commands, Output, Performance)
+- **Auto-scaling**: Automatically detects and adapts to your display scaling (including fractional scaling on 4K displays)
+- **Manual Scaling**: Override with `--scale` or adjust auto-scaling multiplier with `--auto-scale-multiplier`
+
+### GUI Usage
+
+```bash
+# Launch the GUI
+whisprd-gui
+
+# Or directly
+python3 whisprd_gui.py
+
+# Demo mode (no engine required)
+python3 demo_gui.py
+
+# With custom scaling
+whisprd-gui --scale 1.5
+whisprd-gui --auto-scale-multiplier 1.15
+```
+
+The GUI provides the same functionality as the CLI but with an intuitive visual interface and real-time status updates.
+
+## Use Cases
 
 - **Document Writing**: Dictate emails, documents, and notes
 - **Programming**: Voice code with custom commands
@@ -54,7 +85,7 @@ If you find this useful and want to keep it updated, consider:
 - **Professional Use**: Business, medical, legal, and technical transcription
 - **Creative Writing**: Storytelling, poetry, and dialogue transcription
 
-## 📋 Requirements
+## Requirements
 
 ### System Requirements
 - Linux (tested on Ubuntu 20.04+, Fedora, Arch)
@@ -68,7 +99,7 @@ If you find this useful and want to keep it updated, consider:
 - Sufficient RAM (4GB+ recommended)
 - GPU with CUDA support (optional, for faster-whisper)
 
-## 🛠️ Installation
+## Installation
 
 ### Quick Install
 
@@ -112,7 +143,7 @@ If you find this useful and want to keep it updated, consider:
    sudo chmod +x /opt/whisprd/whisprd_cli.py
    ```
 
-## 🎮 Usage
+## Usage
 
 ### Basic Usage
 
@@ -179,7 +210,7 @@ The system automatically detects punctuation words:
 - Say `"comma"` or `"pause"` → inserts ,
 - Say `"question mark"` → inserts ?
 
-## ⚙️ Configuration
+## Configuration
 
 Edit `~/.config/whisprd/config.yaml` to customize the system:
 
@@ -308,7 +339,7 @@ whisper:
   alternate_prompts_file: "~/whisprd_prompts.yaml"
 ```
 
-## 🚀 GPU Acceleration
+## GPU Acceleration
 
 Whisprd supports CUDA GPU acceleration for faster transcription:
 
@@ -343,7 +374,7 @@ whisper:
 - Adjust `gpu_memory_fraction` based on your GPU memory
 - Enable `enable_memory_efficient_attention` for large models
 
-## 🔧 Advanced Usage
+## Advanced Usage
 
 ### Daemon Mode
 
@@ -402,7 +433,7 @@ professional:
   technical: "Transcribe technical content. Preserve technical terms..."
 ```
 
-## 📊 Monitoring
+## Monitoring
 
 ### CLI Status
 The interactive CLI shows real-time status:
@@ -424,7 +455,7 @@ All transcriptions are saved to:
 ~/.local/share/whisprd/whisprd_transcript.txt
 ```
 
-## 🐛 Troubleshooting
+## Troubleshooting
 
 ### Common Issues
 
@@ -496,14 +527,14 @@ python3 -c "from faster_whisper import WhisperModel; print('Whisper OK')"
 python3 -c "import uinput; print('uinput OK')"
 ```
 
-## 🔒 Security
+## Security
 
 - The system runs as a user service, not root
 - Audio data is processed locally (no cloud upload)
 - Keystroke injection is limited to the user's session
 - Configuration files are user-specific
 
-## 🤝 Contributing
+## Contributing
 
 We welcome contributions! Please see our [Contributing Guidelines](CONTRIBUTING.md) for details on how to:
 
@@ -515,15 +546,15 @@ We welcome contributions! Please see our [Contributing Guidelines](CONTRIBUTING.
 
 Code of Conduct: Don't be a jerk. It's freeware.
 
-## 📄 License
+## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## 📋 Changelog
+## Changelog
 
 See [CHANGELOG.md](CHANGELOG.md) for a complete history of changes and releases.
 
-## 🔄 Changelog
+## Changelog
 
 ### Version 1.0.0 (Initial Release)
 - Complete real-time dictation system
@@ -533,7 +564,7 @@ See [CHANGELOG.md](CHANGELOG.md) for a complete history of changes and releases.
 
 For detailed changes, see [CHANGELOG.md](CHANGELOG.md).
 
-## 🙏 Acknowledgments
+## Acknowledgments
 
 - [OpenAI Whisper](https://github.com/openai/whisper) - Speech recognition model
 - [faster-whisper](https://github.com/guillaumekln/faster-whisper) - Optimized Whisper implementation
@@ -541,13 +572,13 @@ For detailed changes, see [CHANGELOG.md](CHANGELOG.md).
 - [python-uinput](https://github.com/tuomasjjrasanen/python-uinput) - Keystroke injection
 - [pynput](https://github.com/moses-palmer/pynput) - Global hotkey detection
 
-## 📞 Support
+## Support
 
 - **Issues**: [GitHub Issues](https://github.com/yourusername/whisprd/issues)
 - **Discussions**: [GitHub Discussions](https://github.com/yourusername/whisprd/discussions)
 - **Wiki**: [GitHub Wiki](https://github.com/yourusername/whisprd/wiki)
 
-## 🔄 Changelog
+## Changelog
 
 ### v1.1.0
 - Added pause duration configuration

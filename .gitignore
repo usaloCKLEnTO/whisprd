@@ -212,3 +212,6 @@ Thumbs.db
 # Lock files (keep uv.lock but ignore others)
 # uv.lock  # Keep this for reproducible builds
 *.lock 
+
+# Test files
+test_gui.py 

@@ -39,6 +39,7 @@ dependencies = [
     "click>=8.1.7",
     "rich>=13.5.2",
     "torch==2.2.0",
+    "dearpygui>=1.10.0",
 ]
 
 [project.optional-dependencies]
@@ -53,9 +54,15 @@ dev = [
 cuda = [
     "torch>=2.0.0",
 ]
+# GUI dependencies are provided by system packages, not pip/uv
+# gui = [
+#     "PyGObject>=3.42.0",
+#     "matplotlib>=3.7.0",
+# ]
 
 [project.scripts]
 whisprd = "whisprd_cli:main"
+whisprd-gui = "whisprd_gui:main"
 
 [project.urls]
 Homepage = "https://github.com/yourusername/whisprd"
@@ -113,6 +120,7 @@ module = [
     "pynput.*",
     "yaml.*",
     "torch.*",
+    "dearpygui.*",
 ]
 ignore_missing_imports = true
 
