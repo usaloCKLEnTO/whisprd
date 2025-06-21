@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# Real-time Whisper Dictation System Installer
-# This script installs the dictation system with proper permissions and dependencies
+# Real-time Whisper Dictation System (Whisprd) Installer
+# This script installs the whisprd system with proper permissions and dependencies
 
 set -e
 
@@ -14,8 +14,8 @@ NC='\033[0m' # No Color
 
 # Configuration
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-INSTALL_DIR="/opt/dictation"
-SERVICE_NAME="dictation"
+INSTALL_DIR="/opt/whisprd"
+SERVICE_NAME="whisprd"
 USER_SERVICE_DIR="$HOME/.config/systemd/user"
 
 # Function to print colored output
@@ -146,13 +146,13 @@ install_system_files() {
     sudo mkdir -p $INSTALL_DIR
     
     # Copy files
-    sudo cp -r dictation/ $INSTALL_DIR/
-    sudo cp dictation_cli.py $INSTALL_DIR/
+    sudo cp -r whisprd/ $INSTALL_DIR/
+    sudo cp whisprd_cli.py $INSTALL_DIR/
     sudo cp config.yaml $INSTALL_DIR/
     sudo cp requirements.txt $INSTALL_DIR/
     
     # Make CLI executable
-    sudo chmod +x $INSTALL_DIR/dictation_cli.py
+    sudo chmod +x $INSTALL_DIR/whisprd_cli.py
     
     # Set ownership
     sudo chown -R $USER:$USER $INSTALL_DIR
@@ -168,21 +168,21 @@ setup_systemd_service() {
     mkdir -p $USER_SERVICE_DIR
     
     # Copy and modify service file
-    cp dictation.service $USER_SERVICE_DIR/
+    cp whisprd.service $USER_SERVICE_DIR/
     
     # Update service file with correct paths
-    sed -i "s|/path/to/dictation|$INSTALL_DIR|g" $USER_SERVICE_DIR/dictation.service
-    sed -i "s|%i|$USER|g" $USER_SERVICE_DIR/dictation.service
+    sed -i "s|/path/to/whisprd|$INSTALL_DIR|g" $USER_SERVICE_DIR/whisprd.service
+    sed -i "s|%i|$USER|g" $USER_SERVICE_DIR/whisprd.service
     
     # Reload systemd user daemon
     systemctl --user daemon-reload
     
     # Enable service
-    systemctl --user enable dictation.service
+    systemctl --user enable whisprd.service
     
     print_success "Systemd service configured"
-    print_status "To start the service: systemctl --user start dictation"
-    print_status "To enable auto-start: systemctl --user enable dictation"
+    print_status "To start the service: systemctl --user start whisprd"
+    print_status "To enable auto-start: systemctl --user enable whisprd"
 }
 
 # Function to create configuration
@@ -190,19 +190,19 @@ setup_configuration() {
     print_status "Setting up configuration..."
     
     # Create config directory
-    mkdir -p $HOME/.config/dictation
+    mkdir -p $HOME/.config/whisprd
     
     # Copy default config if it doesn't exist
-    if [[ ! -f $HOME/.config/dictation/config.yaml ]]; then
-        cp config.yaml $HOME/.config/dictation/
-        print_success "Default configuration created at $HOME/.config/dictation/config.yaml"
+    if [[ ! -f $HOME/.config/whisprd/config.yaml ]]; then
+        cp config.yaml $HOME/.config/whisprd/
+        print_success "Default configuration created at $HOME/.config/whisprd/config.yaml"
     else
         print_success "Configuration already exists"
     fi
     
     # Create transcript directory
-    mkdir -p $HOME/.local/share/dictation
-    print_success "Transcript directory created at $HOME/.local/share/dictation"
+    mkdir -p $HOME/.local/share/whisprd
+    print_success "Transcript directory created at $HOME/.local/share/whisprd"
 }
 
 # Function to create desktop entry
@@ -213,13 +213,13 @@ create_desktop_entry() {
     mkdir -p $HOME/.local/share/applications
     
     # Create desktop entry
-    cat > $HOME/.local/share/applications/dictation.desktop << EOF
+    cat > $HOME/.local/share/applications/whisprd.desktop << EOF
 [Desktop Entry]
 Version=1.0
 Type=Application
-Name=Dictation System
+Name=Whisprd
 Comment=Real-time Whisper-powered dictation system
-Exec=$INSTALL_DIR/dictation_cli.py
+Exec=$INSTALL_DIR/whisprd_cli.py
 Icon=audio-input-microphone
 Terminal=true
 Categories=AudioVideo;Audio;Utility;
@@ -259,20 +259,20 @@ show_post_install() {
     echo "Next steps:"
     echo "1. Log out and log back in for group permissions to take effect"
     echo "2. Load uinput module: sudo modprobe uinput"
-    echo "3. Test the system: $INSTALL_DIR/dictation_cli.py"
-    echo "4. Start the service: systemctl --user start dictation"
-    echo "5. Enable auto-start: systemctl --user enable dictation"
+    echo "3. Test the system: $INSTALL_DIR/whisprd_cli.py"
+    echo "4. Start the service: systemctl --user start whisprd"
+    echo "5. Enable auto-start: systemctl --user enable whisprd"
     echo
     echo "Configuration:"
-    echo "- Edit: $HOME/.config/dictation/config.yaml"
-    echo "- Transcripts: $HOME/.local/share/dictation/"
+    echo "- Edit: $HOME/.config/whisprd/config.yaml"
+    echo "- Transcripts: $HOME/.local/share/whisprd/"
     echo
     echo "Usage:"
     echo "- Press Ctrl+Alt+D to toggle dictation"
     echo "- Say 'computer' to activate command mode"
     echo "- Say 'stop listening' to stop dictation"
     echo
-    echo "For help: $INSTALL_DIR/dictation_cli.py --help"
+    echo "For help: $INSTALL_DIR/whisprd_cli.py --help"
 }
 
 # Main installation function

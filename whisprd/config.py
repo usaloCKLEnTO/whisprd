@@ -1,5 +1,5 @@
 """
-Configuration management for the dictation system.
+Configuration management for the whisprd system.
 """
 
 import os
@@ -12,12 +12,17 @@ logger = logging.getLogger(__name__)
 
 
 class Config:
-    """Configuration manager for the dictation system."""
+    """Configuration manager for the whisprd system."""
     
     def __init__(self, config_path: Optional[str] = None):
         """Initialize configuration from YAML file."""
         if config_path is None:
-            config_path = os.path.join(os.path.dirname(__file__), "..", "config.yaml")
+            # Try user config first, then fallback to default
+            user_config = os.path.expanduser("~/.config/whisprd/config.yaml")
+            if os.path.exists(user_config):
+                config_path = user_config
+            else:
+                config_path = os.path.join(os.path.dirname(__file__), "..", "config.yaml")
         
         self.config_path = Path(config_path)
         self.config = self._load_config()
@@ -39,7 +44,7 @@ class Config:
     
     def _validate_config(self):
         """Validate configuration structure and values."""
-        required_sections = ['audio', 'whisper', 'dictation', 'commands', 'output', 'performance']
+        required_sections = ['audio', 'whisper', 'whisprd', 'commands', 'output', 'performance']
         
         for section in required_sections:
             if section not in self.config:
@@ -60,12 +65,12 @@ class Config:
         if whisper.get('model_size') not in valid_models:
             raise ValueError(f"whisper.model_size must be one of: {valid_models}")
         
-        # Validate dictation settings
-        dictation = self.config['dictation']
-        if not isinstance(dictation.get('confidence_threshold'), (int, float)):
-            raise ValueError("dictation.confidence_threshold must be a number")
-        if not 0 <= dictation.get('confidence_threshold', 0) <= 1:
-            raise ValueError("dictation.confidence_threshold must be between 0 and 1")
+        # Validate whisprd settings
+        whisprd = self.config['whisprd']
+        if not isinstance(whisprd.get('confidence_threshold'), (int, float)):
+            raise ValueError("whisprd.confidence_threshold must be a number")
+        if not 0 <= whisprd.get('confidence_threshold', 0) <= 1:
+            raise ValueError("whisprd.confidence_threshold must be between 0 and 1")
     
     def get(self, key: str, default: Any = None) -> Any:
         """Get configuration value using dot notation."""
@@ -88,9 +93,9 @@ class Config:
         """Get Whisper configuration."""
         return self.config['whisper']
     
-    def get_dictation_config(self) -> Dict[str, Any]:
-        """Get dictation configuration."""
-        return self.config['dictation']
+    def get_whisprd_config(self) -> Dict[str, Any]:
+        """Get whisprd configuration."""
+        return self.config['whisprd']
     
     def get_commands(self) -> Dict[str, str]:
         """Get voice commands mapping."""

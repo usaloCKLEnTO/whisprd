@@ -1,4 +1,4 @@
-# Dictation System Configuration
+# Whisprd System Configuration
 
 # Audio settings
 audio:
@@ -18,11 +18,11 @@ whisper:
   initial_prompt: null
   
   # Alternate prompt configuration
-  alternate_prompts_file: null  # Path to YAML file with alternate prompts (e.g., "~/dictation_prompts.yaml")
+  alternate_prompts_file: null  # Path to YAML file with alternate prompts (e.g., "~/whisprd_prompts.yaml")
   use_alternate_prompts: false  # Enable to use prompts from alternate_prompts_file
 
-# Dictation settings
-dictation:
+# Whisprd settings
+whisprd:
   # Hotkey to toggle dictation (Ctrl+Alt+D)
   toggle_hotkey: ["ctrl", "shift", "d"]
   
@@ -84,7 +84,7 @@ commands:
 output:
   # Save transcriptions to file
   save_to_file: true
-  transcript_file: "~/dictation_transcript.txt"
+  transcript_file: "~/whisprd_transcript.txt"
   
   # Console output
   console_output: true

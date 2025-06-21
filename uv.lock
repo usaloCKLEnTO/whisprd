@@ -226,51 +226,6 @@ wheels = [
 ]
 
 [[package]]
-name = "dictation"
-version = "1.0.0"
-source = { editable = "." }
-dependencies = [
-    { name = "click" },
-    { name = "faster-whisper" },
-    { name = "numpy" },
-    { name = "psutil" },
-    { name = "pynput" },
-    { name = "python-uinput" },
-    { name = "pyyaml" },
-    { name = "rich" },
-    { name = "sounddevice" },
-]
-
-[package.optional-dependencies]
-dev = [
-    { name = "black" },
-    { name = "flake8" },
-    { name = "isort" },
-    { name = "mypy" },
-    { name = "pytest" },
-    { name = "pytest-cov" },
-]
-
-[package.metadata]
-requires-dist = [
-    { name = "black", marker = "extra == 'dev'", specifier = ">=23.0.0" },
-    { name = "click", specifier = ">=8.1.7" },
-    { name = "faster-whisper", specifier = ">=0.10.0" },
-    { name = "flake8", marker = "extra == 'dev'", specifier = ">=6.0.0" },
-    { name = "isort", marker = "extra == 'dev'", specifier = ">=5.12.0" },
-    { name = "mypy", marker = "extra == 'dev'", specifier = ">=1.0.0" },
-    { name = "numpy", specifier = ">=2.0.0" },
-    { name = "psutil", specifier = ">=5.9.5" },
-    { name = "pynput", specifier = ">=1.7.6" },
-    { name = "pytest", marker = "extra == 'dev'", specifier = ">=7.0.0" },
-    { name = "pytest-cov", marker = "extra == 'dev'", specifier = ">=4.0.0" },
-    { name = "python-uinput", specifier = ">=0.11.2" },
-    { name = "pyyaml", specifier = ">=6.0.1" },
-    { name = "rich", specifier = ">=13.5.2" },
-    { name = "sounddevice", specifier = ">=0.4.6" },
-]
-
-[[package]]
 name = "evdev"
 version = "1.9.2"
 source = { registry = "https://pypi.org/simple" }
@@ -956,4 +911,49 @@ source = { registry = "https://pypi.org/simple" }
 sdist = { url = "https://files.pythonhosted.org/packages/15/22/9ee70a2574a4f4599c47dd506532914ce044817c7752a79b6a51286319bc/urllib3-2.5.0.tar.gz", hash = "sha256:3fc47733c7e419d4bc3f6b3dc2b4f890bb743906a30d56ba4a5bfa4bbff92760", size = 393185 }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/a7/c2/fe1e52489ae3122415c51f387e221dd0773709bad6c6cdaa599e8a2c5185/urllib3-2.5.0-py3-none-any.whl", hash = "sha256:e6b01673c0fa6a13e374b50871808eb3bf7046c4b125b216f6bf1cc604cff0dc", size = 129795 },
+]
+
+[[package]]
+name = "whisprd"
+version = "1.0.0"
+source = { editable = "." }
+dependencies = [
+    { name = "click" },
+    { name = "faster-whisper" },
+    { name = "numpy" },
+    { name = "psutil" },
+    { name = "pynput" },
+    { name = "python-uinput" },
+    { name = "pyyaml" },
+    { name = "rich" },
+    { name = "sounddevice" },
+]
+
+[package.optional-dependencies]
+dev = [
+    { name = "black" },
+    { name = "flake8" },
+    { name = "isort" },
+    { name = "mypy" },
+    { name = "pytest" },
+    { name = "pytest-cov" },
+]
+
+[package.metadata]
+requires-dist = [
+    { name = "black", marker = "extra == 'dev'", specifier = ">=23.0.0" },
+    { name = "click", specifier = ">=8.1.7" },
+    { name = "faster-whisper", specifier = ">=0.10.0" },
+    { name = "flake8", marker = "extra == 'dev'", specifier = ">=6.0.0" },
+    { name = "isort", marker = "extra == 'dev'", specifier = ">=5.12.0" },
+    { name = "mypy", marker = "extra == 'dev'", specifier = ">=1.0.0" },
+    { name = "numpy", specifier = ">=2.0.0" },
+    { name = "psutil", specifier = ">=5.9.5" },
+    { name = "pynput", specifier = ">=1.7.6" },
+    { name = "pytest", marker = "extra == 'dev'", specifier = ">=7.0.0" },
+    { name = "pytest-cov", marker = "extra == 'dev'", specifier = ">=4.0.0" },
+    { name = "python-uinput", specifier = ">=0.11.2" },
+    { name = "pyyaml", specifier = ">=6.0.1" },
+    { name = "rich", specifier = ">=13.5.2" },
+    { name = "sounddevice", specifier = ">=0.4.6" },
 ]

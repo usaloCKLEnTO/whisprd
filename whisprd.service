@@ -1,5 +1,5 @@
 [Unit]
-Description=Real-time Whisper Dictation System
+Description=Real-time Whisper Dictation System (Whisprd)
 After=network.target sound.target
 Wants=network.target
 
@@ -11,7 +11,7 @@ Environment=DISPLAY=:0
 Environment=XAUTHORITY=/home/%i/.Xauthority
 Environment=XDG_RUNTIME_DIR=/run/user/%i
 WorkingDirectory=/home/%i
-ExecStart=/usr/bin/python3 /path/to/dictation/dictation_cli.py --daemon
+ExecStart=/usr/bin/python3 /path/to/whisprd/whisprd_cli.py --daemon
 Restart=always
 RestartSec=5
 StandardOutput=journal

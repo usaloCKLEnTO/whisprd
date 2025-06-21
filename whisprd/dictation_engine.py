@@ -66,10 +66,10 @@ class DictationEngine:
     def initialize_components(self):
         """Initialize all dictation components."""
         try:
-            # Initialize command processor with both dictation and commands config
-            dictation_config = self.config.get_dictation_config()
+            # Initialize command processor with both whisprd and commands config
+            whisprd_config = self.config.get_whisprd_config()
             commands_config = self.config.get_commands()
-            command_config = {**dictation_config, 'commands': commands_config}
+            command_config = {**whisprd_config, 'commands': commands_config}
             self.command_processor = CommandProcessor(command_config)
             
             # Initialize keystroke injector if enabled
@@ -78,7 +78,7 @@ class DictationEngine:
             
             # Initialize hotkey manager
             self.hotkey_manager = HotkeyManager(
-                self.config.get_dictation_config(),
+                self.config.get_whisprd_config(),
                 hotkey_callback=self._toggle_dictation
             )
             
@@ -441,11 +441,11 @@ class DictationEngine:
             
             # Update command processor
             if self.command_processor:
-                self.command_processor.update_config(self.config.get_dictation_config())
+                self.command_processor.update_config(self.config.get_whisprd_config())
             
             # Update hotkey manager
             if self.hotkey_manager:
-                self.hotkey_manager.update_hotkey(self.config.get_dictation_config().get('toggle_hotkey', ['ctrl', 'alt', 'd']))
+                self.hotkey_manager.update_hotkey(self.config.get_whisprd_config().get('toggle_hotkey', ['ctrl', 'alt', 'd']))
             
             logger.info("Configuration reloaded")
             

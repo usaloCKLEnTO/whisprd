@@ -1,5 +1,5 @@
 """
-Real-time Whisper-powered dictation system for Linux.
+Whisprd - Real-time Whisper-powered dictation system for Linux.
 
 This package provides a complete dictation solution with:
 - Real-time audio capture
@@ -10,5 +10,5 @@ This package provides a complete dictation solution with:
 """
 
 __version__ = "1.0.0"
-__author__ = "Dictation System"
+__author__ = "Whisprd System"
 __description__ = "Real-time Whisper-powered dictation for Linux" 

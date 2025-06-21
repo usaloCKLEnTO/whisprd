@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Command-line interface for the dictation system.
+Command-line interface for the whisprd system.
 """
 
 import sys
@@ -20,7 +20,7 @@ from rich.text import Text
 from rich.progress import Progress, SpinnerColumn, TextColumn
 from rich.prompt import Prompt, Confirm
 
-from dictation.dictation_engine import DictationEngine
+from whisprd.dictation_engine import DictationEngine
 
 # Set up logging
 logging.basicConfig(
@@ -31,8 +31,8 @@ logging.basicConfig(
 console = Console()
 
 
-class DictationCLI:
-    """Command-line interface for the dictation system."""
+class WhisprdCLI:
+    """Command-line interface for the whisprd system."""
     
     def __init__(self):
         """Initialize the CLI."""
@@ -51,7 +51,7 @@ class DictationCLI:
         sys.exit(0)
     
     def start(self, config_path: Optional[str] = None, verbose: bool = False):
-        """Start the dictation system."""
+        """Start the whisprd system."""
         try:
             # Set log level
             if verbose:
@@ -63,7 +63,7 @@ class DictationCLI:
                 TextColumn("[progress.description]{task.description}"),
                 console=self.console
             ) as progress:
-                task = progress.add_task("Initializing dictation engine...", total=None)
+                task = progress.add_task("Initializing whisprd engine...", total=None)
                 
                 self.engine = DictationEngine(config_path)
                 
@@ -81,15 +81,15 @@ class DictationCLI:
             self._interactive_loop()
             
         except Exception as e:
-            console.print(f"[red]Error starting dictation system: {e}[/red]")
+            console.print(f"[red]Error starting whisprd system: {e}[/red]")
             sys.exit(1)
     
     def stop(self):
-        """Stop the dictation system."""
+        """Stop the whisprd system."""
         if self.engine and self.running:
             self.engine.stop()
             self.running = False
-            console.print("[green]Dictation system stopped.[/green]")
+            console.print("[green]Whisprd system stopped.[/green]")
     
     def _show_welcome(self):
         """Show welcome message and instructions."""
@@ -156,7 +156,7 @@ class DictationCLI:
         status = self.engine.get_status()
         
         # Create status table
-        table = Table(title="Dictation Status")
+        table = Table(title="Whisprd Status")
         table.add_column("Property", style="cyan")
         table.add_column("Value", style="white")
         
@@ -329,7 +329,7 @@ def main(config_path: Optional[str], verbose: bool, daemon: bool):
             sys.exit(1)
     else:
         # Interactive mode
-        cli = DictationCLI()
+        cli = WhisprdCLI()
         cli.start(config_path, verbose)
 
 

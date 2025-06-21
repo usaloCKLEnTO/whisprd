@@ -1,6 +1,6 @@
-# Real-time Whisper Dictation System for Linux
+# Whisprd - Real-time Whisper Dictation System for Linux
 
-A powerful, real-time dictation system for Linux that uses OpenAI's Whisper model to convert speech to text and inject keystrokes into any application. This system provides Windows-like dictation functionality with voice commands, auto-punctuation, and low-latency transcription.
+A powerful, real-time dictation system for Linux that uses OpenAI's Whisper model to convert speech to text and inject keystrokes into any application. Whisprd provides Windows-like dictation functionality with voice commands, auto-punctuation, and low-latency transcription.
 
 ## 🚀 Features
 
@@ -47,8 +47,8 @@ A powerful, real-time dictation system for Linux that uses OpenAI's Whisper mode
 
 1. **Clone the repository**:
    ```bash
-   git clone https://github.com/yourusername/dictation.git
-   cd dictation
+   git clone https://github.com/yourusername/whisprd.git
+   cd whisprd
    ```
 
 2. **Run the installer**:
@@ -59,7 +59,7 @@ A powerful, real-time dictation system for Linux that uses OpenAI's Whisper mode
 3. **Follow the post-install instructions**:
    - Log out and back in for group permissions
    - Load uinput module: `sudo modprobe uinput`
-   - Test the system: `/opt/dictation/dictation_cli.py`
+   - Test the system: `/opt/whisprd/whisprd_cli.py`
 
 ### Manual Installation
 
@@ -78,11 +78,11 @@ A powerful, real-time dictation system for Linux that uses OpenAI's Whisper mode
 
 3. **Copy files**:
    ```bash
-   sudo mkdir -p /opt/dictation
-   sudo cp -r dictation/ /opt/dictation/
-   sudo cp dictation_cli.py config.yaml requirements.txt /opt/dictation/
-   sudo chown -R $USER:$USER /opt/dictation
-   sudo chmod +x /opt/dictation/dictation_cli.py
+   sudo mkdir -p /opt/whisprd
+   sudo cp -r whisprd/ /opt/whisprd/
+   sudo cp whisprd_cli.py config.yaml requirements.txt /opt/whisprd/
+   sudo chown -R $USER:$USER /opt/whisprd
+   sudo chmod +x /opt/whisprd/whisprd_cli.py
    ```
 
 ## 🎮 Usage
@@ -91,7 +91,7 @@ A powerful, real-time dictation system for Linux that uses OpenAI's Whisper mode
 
 1. **Start the system**:
    ```bash
-   /opt/dictation/dictation_cli.py
+   /opt/whisprd/whisprd_cli.py
    ```
 
 2. **Toggle dictation**: Press `Ctrl+Alt+D`
@@ -154,7 +154,7 @@ The system automatically detects punctuation words:
 
 ## ⚙️ Configuration
 
-Edit `~/.config/dictation/config.yaml` to customize the system:
+Edit `~/.config/whisprd/config.yaml` to customize the system:
 
 ### Audio Settings
 ```yaml
@@ -183,7 +183,7 @@ whisper:
 
 ### Dictation Settings
 ```yaml
-dictation:
+whisprd:
   toggle_hotkey: ["ctrl", "shift", "d"]  # Hotkey to toggle dictation
   command_mode_word: "computer"          # Word to activate command mode
   confidence_threshold: 0.8              # Minimum confidence for transcription
@@ -235,7 +235,7 @@ commands:
 ```yaml
 output:
   save_to_file: true                    # Save transcriptions to file
-  transcript_file: "~/dictation_transcript.txt"  # Transcript file path
+  transcript_file: "~/whisprd_transcript.txt"  # Transcript file path
   console_output: true                  # Show transcriptions in console
   inject_keystrokes: true               # Inject keystrokes into applications
 ```
@@ -253,7 +253,7 @@ performance:
 Create a YAML file with different prompts for various use cases:
 
 ```yaml
-# dictation_prompts.yaml
+# whisprd_prompts.yaml
 general:
   default: "Transcribe only what you hear..."
   formal: "Transcribe the spoken words accurately. Use formal language..."
@@ -272,7 +272,7 @@ Then enable in config.yaml:
 ```yaml
 whisper:
   use_alternate_prompts: true
-  alternate_prompts_file: "~/dictation_prompts.yaml"
+  alternate_prompts_file: "~/whisprd_prompts.yaml"
 ```
 
 ## 🔧 Advanced Usage
@@ -281,15 +281,15 @@ whisper:
 
 Run as a background service:
 ```bash
-/opt/dictation/dictation_cli.py --daemon
+/opt/whisprd/whisprd_cli.py --daemon
 ```
 
 ### Systemd Service
 
 Enable auto-start:
 ```bash
-systemctl --user enable dictation
-systemctl --user start dictation
+systemctl --user enable whisprd
+systemctl --user start whisprd
 ```
 
 ### Custom Commands
@@ -317,7 +317,7 @@ whisper:
 
 Adjust pause duration for your speaking style:
 ```yaml
-dictation:
+whisprd:
   pause_duration: 1.5        # Longer pause for slower speakers
   min_utterance_duration: 0.5  # Shorter minimum for quick phrases
   overlap_duration: 0.3      # More overlap for better context
@@ -327,7 +327,7 @@ dictation:
 
 Use specialized prompts for different domains:
 ```yaml
-# In dictation_prompts.yaml
+# In whisprd_prompts.yaml
 professional:
   legal: "Transcribe legal content. Preserve legal terminology..."
   medical: "Transcribe medical terminology. Maintain accuracy..."
@@ -347,13 +347,13 @@ The interactive CLI shows real-time status:
 ### Logs
 View system logs:
 ```bash
-journalctl --user -u dictation -f
+journalctl --user -u whisprd -f
 ```
 
 ### Transcripts
 All transcriptions are saved to:
 ```
-~/.local/share/dictation/dictation_transcript.txt
+~/.local/share/whisprd/whisprd_transcript.txt
 ```
 
 ## 🐛 Troubleshooting
@@ -411,7 +411,7 @@ All transcriptions are saved to:
 
 Run with verbose logging:
 ```bash
-/opt/dictation/dictation_cli.py --verbose
+/opt/whisprd/whisprd_cli.py --verbose
 ```
 
 ### Testing Components
@@ -446,10 +446,9 @@ python3 -c "import uinput; print('uinput OK')"
 ### Development Setup
 
 ```bash
-git clone https://github.com/yourusername/dictation.git
-cd dictation
-pip3 install -r requirements.txt
-python3 dictation_cli.py --verbose
+git clone https://github.com/yourusername/whisprd.git
+cd whisprd
+python3 whisprd_cli.py --verbose
 ```
 
 ## 📄 License
@@ -466,9 +465,9 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 📞 Support
 
-- **Issues**: [GitHub Issues](https://github.com/yourusername/dictation/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/yourusername/dictation/discussions)
-- **Wiki**: [GitHub Wiki](https://github.com/yourusername/dictation/wiki)
+- **Issues**: [GitHub Issues](https://github.com/yourusername/whisprd/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/yourusername/whisprd/discussions)
+- **Wiki**: [GitHub Wiki](https://github.com/yourusername/whisprd/wiki)
 
 ## 🔄 Changelog
 
