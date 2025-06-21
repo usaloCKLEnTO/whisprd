@@ -17,6 +17,10 @@ whisper:
   condition_on_previous_text: false
   initial_prompt: null
   
+  # GPU/CUDA settings
+  use_cuda: true  # Enable CUDA GPU acceleration (auto-fallback to CPU if not available)
+  cuda_device: 0  # CUDA device index (0 for first GPU)
+  
   # Alternate prompt configuration
   alternate_prompts_file: null  # Path to YAML file with alternate prompts (e.g., "~/whisprd_prompts.yaml")
   use_alternate_prompts: false  # Enable to use prompts from alternate_prompts_file
@@ -101,4 +105,8 @@ performance:
   audio_buffer_seconds: 1.0
   
   # Maximum transcription latency in seconds
-  max_latency: 2.0 
+  max_latency: 2.0
+  
+  # GPU memory management
+  gpu_memory_fraction: 0.8  # Fraction of GPU memory to use (0.0-1.0)
+  enable_memory_efficient_attention: true  # Use memory-efficient attention for large models 

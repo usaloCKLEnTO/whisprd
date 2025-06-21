@@ -19,6 +19,51 @@ except ImportError:
 logger = logging.getLogger(__name__)
 
 
+def check_cuda_availability() -> bool:
+    """
+    Check if CUDA is available on the system.
+    
+    Returns:
+        True if CUDA is available and working, False otherwise
+    """
+    try:
+        import torch
+        if torch.cuda.is_available():
+            # Test if we can actually use CUDA
+            device = torch.device('cuda:0')
+            test_tensor = torch.tensor([1.0], device=device)
+            logger.info(f"CUDA available: {torch.cuda.get_device_name(0)}")
+            return True
+        else:
+            logger.info("CUDA not available (torch.cuda.is_available() returned False)")
+            return False
+    except ImportError:
+        logger.info("PyTorch not available, cannot check CUDA")
+        return False
+    except Exception as e:
+        logger.warning(f"CUDA check failed: {e}")
+        return False
+
+
+def get_optimal_compute_type(device: str, model_size: str) -> str:
+    """
+    Get optimal compute type for the given device and model size.
+    
+    Args:
+        device: Device type ('cuda' or 'cpu')
+        model_size: Model size ('tiny', 'base', 'small', 'medium', 'large')
+        
+    Returns:
+        Optimal compute type string
+    """
+    if device == "cuda":
+        # For CUDA, use float16 for better performance
+        return "float16"
+    else:
+        # For CPU, use int8 for better performance
+        return "int8"
+
+
 class WhisperTranscriber:
     """Whisper transcription using faster-whisper."""
     
@@ -48,25 +93,79 @@ class WhisperTranscriber:
         self.condition_on_previous_text = config.get('condition_on_previous_text', True)
         self.initial_prompt = config.get('initial_prompt', '')
         
+        # CUDA settings
+        self.use_cuda = config.get('use_cuda', True)
+        self.cuda_device = config.get('cuda_device', 0)
+        self.cuda_available = False
+        self.device = "cpu"
+        self.compute_type = "int8"
+        
+        # Performance settings
+        self.gpu_memory_fraction = config.get('gpu_memory_fraction', 0.8)
+        self.enable_memory_efficient_attention = config.get('enable_memory_efficient_attention', True)
+        
         # Initialize model
         self.model = None
         self._load_model()
         
-        logger.info(f"Whisper transcriber initialized with model: {self.model_size}")
+        logger.info(f"Whisper transcriber initialized with model: {self.model_size} on {self.device}")
     
     def _load_model(self) -> None:
-        """Load Whisper model."""
+        """Load Whisper model with CUDA support and automatic fallback."""
         try:
             logger.info(f"Loading Whisper model: {self.model_size}")
-            self.model = WhisperModel(
-                self.model_size,
-                device="cpu",  # Force CPU to avoid CUDA issues
-                compute_type="int8"  # Use int8 for CPU
-            )
-            logger.info("Whisper model loaded successfully")
+            
+            # Determine device and compute type
+            if self.use_cuda:
+                self.cuda_available = check_cuda_availability()
+                if self.cuda_available:
+                    self.device = "cuda"
+                    self.compute_type = get_optimal_compute_type("cuda", self.model_size)
+                    logger.info(f"Using CUDA device {self.cuda_device} with compute type {self.compute_type}")
+                else:
+                    self.device = "cpu"
+                    self.compute_type = get_optimal_compute_type("cpu", self.model_size)
+                    logger.warning("CUDA requested but not available, falling back to CPU")
+            else:
+                self.device = "cpu"
+                self.compute_type = get_optimal_compute_type("cpu", self.model_size)
+                logger.info("Using CPU for transcription")
+            
+            # Load model with determined settings
+            model_kwargs = {
+                "model_size_or_path": self.model_size,
+                "device": self.device,
+                "compute_type": self.compute_type,
+            }
+            
+            # Add CUDA-specific options if using CUDA
+            if self.device == "cuda":
+                model_kwargs["device_index"] = self.cuda_device
+                logger.info(f"GPU memory fraction: {self.gpu_memory_fraction}")
+                logger.info(f"Memory efficient attention: {self.enable_memory_efficient_attention}")
+            
+            self.model = WhisperModel(**model_kwargs)
+            logger.info(f"Whisper model loaded successfully on {self.device}")
+            
         except Exception as e:
             logger.error(f"Failed to load Whisper model: {e}")
-            raise
+            # Try fallback to CPU if CUDA failed
+            if self.device.startswith("cuda"):
+                logger.info("Attempting fallback to CPU...")
+                try:
+                    self.device = "cpu"
+                    self.compute_type = get_optimal_compute_type("cpu", self.model_size)
+                    self.model = WhisperModel(
+                        self.model_size,
+                        device=self.device,
+                        compute_type=self.compute_type
+                    )
+                    logger.info("Whisper model loaded successfully on CPU (fallback)")
+                except Exception as fallback_error:
+                    logger.error(f"CPU fallback also failed: {fallback_error}")
+                    raise
+            else:
+                raise
     
     def start_transcription(self) -> None:
         """Start transcription thread."""
@@ -193,9 +292,7 @@ class WhisperTranscriber:
         # Check if last text is contained within new text (expansion case)
         if last_text_norm in new_text_norm:
             # Only consider it new if it's significantly longer
-            if len(new_text_norm) > len(last_text_norm) * 1.3:
-                return True
-            return False
+            return len(new_text_norm) > len(last_text_norm) * 1.3
         
         # Check for significant overlap at the beginning or end
         new_words = new_text_norm.split()

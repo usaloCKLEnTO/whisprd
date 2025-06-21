@@ -1,10 +1,34 @@
-# Whisprd - Real-time Whisper Dictation System for Linux
+# Whisprd
 
-A powerful, real-time dictation system for Linux that uses OpenAI's Whisper model to convert speech to text and inject keystrokes into any application. Whisprd provides Windows-like dictation functionality with voice commands, auto-punctuation, and low-latency transcription.
+**Real-time Whisper-powered dictation system for Linux**
+
+A personal project by [@AgenticToaster](https://github.com/AgenticToaster) - built to solve a specific problem I had with dictation. This is not a business or community project, just something I found helpful and wanted to share.
+
+## 🎯 What This Is
+
+- **Personal Project**: Built by me, for me, shared with you
+- **Problem Solver**: Created to address my own dictation needs
+- **Open Source**: Feel free to use, modify, or take ownership
+- **Low Maintenance**: I'll update when I can, but it's not my top priority
+
+## 🤝 Contributing
+
+**You're welcome to contribute!** But please understand:
+
+- This is a **personal project**, not a community-driven one
+- I may not respond quickly to issues or PRs
+- Feel free to fork and take ownership if you want to maintain it actively
+- Don't be a jerk - I'm sharing this to help others, not to start a business
+
+If you find this useful and want to keep it updated, consider:
+- Forking the repository and maintaining your own version
+- Submitting PRs (I'll review when I can)
+- Taking over maintenance if you're passionate about it
 
 ## 🚀 Features
 
 - **Real-time Speech Recognition**: Uses faster-whisper for GPU-accelerated transcription
+- **CUDA GPU Support**: Automatic GPU acceleration with fallback to CPU
 - **Voice Commands**: Customizable voice commands for text editing and system control
 - **Keystroke Injection**: Low-latency input injection using uinput
 - **Auto-punctuation**: Automatic punctuation insertion based on voice cues
@@ -176,6 +200,10 @@ whisper:
   condition_on_previous_text: false  # Use previous text as context
   initial_prompt: "Transcribe only what you hear..."  # Initial prompt for Whisper
   
+  # GPU/CUDA settings
+  use_cuda: true            # Enable CUDA GPU acceleration (auto-fallback to CPU)
+  cuda_device: 0            # CUDA device index (0 for first GPU)
+  
   # Alternate prompts configuration
   alternate_prompts_file: null  # Path to YAML file with alternate prompts
   use_alternate_prompts: false  # Enable to use prompts from file
@@ -246,6 +274,8 @@ performance:
   transcription_threads: 2              # Number of transcription worker threads
   audio_buffer_seconds: 1.0             # Audio buffer size in seconds
   max_latency: 2.0                      # Maximum transcription latency in seconds
+  gpu_memory_fraction: 0.8              # Fraction of GPU memory to use (0.0-1.0)
+  enable_memory_efficient_attention: true  # Use memory-efficient attention for large models
 ```
 
 ### Alternate Prompts Configuration
@@ -274,6 +304,41 @@ whisper:
   use_alternate_prompts: true
   alternate_prompts_file: "~/whisprd_prompts.yaml"
 ```
+
+## 🚀 GPU Acceleration
+
+Whisprd supports CUDA GPU acceleration for faster transcription:
+
+### CUDA Requirements
+- NVIDIA GPU with CUDA support
+- CUDA drivers installed
+- PyTorch with CUDA support
+
+### Installation with CUDA Support
+```bash
+# Install with CUDA support
+uv sync --extra cuda
+
+# Or install PyTorch with CUDA manually
+pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
+```
+
+### CUDA Configuration
+```yaml
+whisper:
+  use_cuda: true            # Enable CUDA (auto-fallback to CPU if not available)
+  cuda_device: 0            # Use first GPU (change for multi-GPU systems)
+```
+
+### Automatic Fallback
+- If CUDA is not available, Whisprd automatically falls back to CPU
+- No configuration changes needed
+- Logs will indicate which device is being used
+
+### Performance Tips
+- Use `model_size: "small"` or `"medium"` for best GPU performance
+- Adjust `gpu_memory_fraction` based on your GPU memory
+- Enable `enable_memory_efficient_attention` for large models
 
 ## 🔧 Advanced Usage
 
@@ -437,23 +502,33 @@ python3 -c "import uinput; print('uinput OK')"
 
 ## 🤝 Contributing
 
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Add tests if applicable
-5. Submit a pull request
+We welcome contributions! Please see our [Contributing Guidelines](CONTRIBUTING.md) for details on how to:
 
-### Development Setup
+- Report bugs
+- Request features
+- Submit code changes
+- Set up development environment
+- Follow coding standards
 
-```bash
-git clone https://github.com/yourusername/whisprd.git
-cd whisprd
-python3 whisprd_cli.py --verbose
-```
+Please also read our [Code of Conduct](CODE_OF_CONDUCT.md) to keep our community approachable and respectable.
 
 ## 📄 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 📋 Changelog
+
+See [CHANGELOG.md](CHANGELOG.md) for a complete history of changes and releases.
+
+## 🔄 Changelog
+
+### Version 1.0.0 (Initial Release)
+- Complete real-time dictation system
+- Voice command support
+- System integration
+- Comprehensive documentation
+
+For detailed changes, see [CHANGELOG.md](CHANGELOG.md).
 
 ## 🙏 Acknowledgments
 
