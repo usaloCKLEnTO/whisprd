@@ -1,4 +1,6 @@
-# Whisprd
+# whisprd
+
+![alt text](whisprd_small.png)
 
 **Real-time Whisper-powered dictation system for Linux**
 A powerful, real-time dictation system for Linux that uses OpenAI's Whisper model to convert speech to text and inject keystrokes into any application. Whisprd provides Windows-like dictation functionality with voice commands, auto-punctuation, and low-latency transcription.
