@@ -1,0 +1,41 @@
+# Alternate Prompts Configuration
+# This file contains different prompts for various use cases
+# Set use_alternate_prompts: true in config.yaml to enable
+
+# General transcription prompts
+general:
+  default: "Transcribe only what you hear. Do not add any phrases like 'thank you' or 'thanks for watching' unless actually spoken."
+  formal: "Transcribe the spoken words accurately. Use formal language and proper grammar."
+  casual: "Transcribe naturally spoken words. Maintain casual, conversational tone."
+
+# Professional prompts
+professional:
+  business: "Transcribe business communication. Use professional language and proper business terminology."
+  technical: "Transcribe technical content. Preserve technical terms and acronyms accurately."
+  medical: "Transcribe medical terminology. Maintain accuracy for medical and clinical terms."
+  legal: "Transcribe legal content. Preserve legal terminology and formal language structure."
+
+# Creative prompts
+creative:
+  storytelling: "Transcribe storytelling content. Maintain narrative flow and emotional tone."
+  poetry: "Transcribe poetic content. Preserve rhythm, meter, and poetic structure."
+  dialogue: "Transcribe dialogue. Maintain character voices and conversational flow."
+
+# Language-specific prompts
+languages:
+  english_formal: "Transcribe in formal English. Use proper grammar and formal vocabulary."
+  english_casual: "Transcribe in casual English. Maintain natural, conversational style."
+  spanish: "Transcribe in Spanish. Use proper Spanish grammar and vocabulary."
+  french: "Transcribe in French. Use proper French grammar and vocabulary."
+  german: "Transcribe in German. Use proper German grammar and vocabulary."
+
+# Specialized prompts
+specialized:
+  code_programming: "Transcribe programming code. Preserve syntax, function names, and code structure."
+  mathematical: "Transcribe mathematical content. Preserve equations, formulas, and mathematical notation."
+  scientific: "Transcribe scientific content. Maintain accuracy for scientific terms and concepts."
+  academic: "Transcribe academic content. Use scholarly language and academic terminology."
+
+# Custom prompts (add your own)
+custom:
+  my_prompt: "Your custom prompt here. Describe the specific requirements for your use case." 

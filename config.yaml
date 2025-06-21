@@ -1,0 +1,104 @@
+# Dictation System Configuration
+
+# Audio settings
+audio:
+  sample_rate: 16000
+  channels: 1
+  buffer_size: 8000  # 0.5 seconds at 16kHz
+  device: null  # null = default device
+
+# Whisper settings
+whisper:
+  model_size: "small"  # tiny, base, small, medium, large
+  language: "en"
+  beam_size: 5
+  best_of: 5
+  temperature: 0.0
+  condition_on_previous_text: false
+  initial_prompt: null
+  
+  # Alternate prompt configuration
+  alternate_prompts_file: null  # Path to YAML file with alternate prompts (e.g., "~/dictation_prompts.yaml")
+  use_alternate_prompts: false  # Enable to use prompts from alternate_prompts_file
+
+# Dictation settings
+dictation:
+  # Hotkey to toggle dictation (Ctrl+Alt+D)
+  toggle_hotkey: ["ctrl", "shift", "d"]
+  
+  # Command mode activation word
+  command_mode_word: "computer"
+  
+  # Minimum confidence threshold for transcription
+  confidence_threshold: 0.8
+  
+  # Auto-punctuation settings
+  auto_punctuation: true
+  sentence_end_words: ["period", "full stop", "dot"]
+  comma_words: ["comma", "pause"]
+  question_words: ["question mark", "question"]
+  
+  # Pause duration settings
+  pause_duration: 1.0  # seconds of silence to trigger utterance boundary
+  min_utterance_duration: 0.7  # minimum utterance length to transcribe
+  overlap_duration: 0.2  # seconds to keep as overlap between utterances
+
+# Voice commands mapping
+commands:
+  # Navigation commands
+  "new line": "KEY_ENTER"
+  "new paragraph": "KEY_ENTER,KEY_ENTER"
+  "backspace": "KEY_BACKSPACE"
+  "delete word": "KEY_CTRL+KEY_BACKSPACE"
+  "delete line": "KEY_CTRL+KEY_A,KEY_DELETE"
+  
+  # Punctuation
+  "period": "KEY_DOT"
+  "comma": "KEY_COMMA"
+  "question mark": "KEY_LEFTSHIFT+KEY_SLASH"
+  "exclamation mark": "KEY_LEFTSHIFT+KEY_1"
+  "semicolon": "KEY_SEMICOLON"
+  "colon": "KEY_LEFTSHIFT+KEY_SEMICOLON"
+  "open parenthesis": "KEY_LEFTSHIFT+KEY_9"
+  "close parenthesis": "KEY_LEFTSHIFT+KEY_0"
+  "open bracket": "KEY_LEFTBRACE"
+  "close bracket": "KEY_RIGHTBRACE"
+  "quote": "KEY_APOSTROPHE"
+  "double quote": "KEY_LEFTSHIFT+KEY_APOSTROPHE"
+  
+  # Text formatting
+  "capitalize": "KEY_CTRL+KEY_A,KEY_CTRL+KEY_U"
+  "select all": "KEY_CTRL+KEY_A"
+  "copy": "KEY_CTRL+KEY_C"
+  "paste": "KEY_CTRL+KEY_V"
+  "cut": "KEY_CTRL+KEY_X"
+  "undo": "KEY_CTRL+KEY_Z"
+  "redo": "KEY_CTRL+KEY_Y"
+  
+  # Special actions
+  "stop dictation": "STOP_DICTATION"
+  "start dictation": "START_DICTATION"
+  "clear text": "KEY_CTRL+KEY_A,KEY_DELETE"
+
+# Output settings
+output:
+  # Save transcriptions to file
+  save_to_file: true
+  transcript_file: "~/dictation_transcript.txt"
+  
+  # Console output
+  console_output: true
+  
+  # Keystroke injection
+  inject_keystrokes: true
+
+# Performance settings
+performance:
+  # Number of worker threads for transcription
+  transcription_threads: 2
+  
+  # Audio buffer size in seconds
+  audio_buffer_seconds: 1.0
+  
+  # Maximum transcription latency in seconds
+  max_latency: 2.0 
