@@ -1,8 +1,9 @@
 # Whisprd
 
 **Real-time Whisper-powered dictation system for Linux**
+A powerful, real-time dictation system for Linux that uses OpenAI's Whisper model to convert speech to text and inject keystrokes into any application. Whisprd provides Windows-like dictation functionality with voice commands, auto-punctuation, and low-latency transcription.
 
-A personal project by [@AgenticToaster](https://github.com/AgenticToaster) - built to solve a specific problem I had with dictation. This is not a business or community project, just something I found helpful and wanted to share.
+FYI this is a personal project by [@AgenticToaster](https://github.com/AgenticToaster) - built to solve a specific problem I had with dictation. This is not a business or community project, just something I found helpful and wanted to share.
 
 ## 🎯 What This Is
 
@@ -510,7 +511,7 @@ We welcome contributions! Please see our [Contributing Guidelines](CONTRIBUTING.
 - Set up development environment
 - Follow coding standards
 
-Please also read our [Code of Conduct](CODE_OF_CONDUCT.md) to keep our community approachable and respectable.
+Code of Conduct: Don't be a jerk. It's freeware.
 
 ## 📄 License
 
