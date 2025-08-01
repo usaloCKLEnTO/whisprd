@@ -212,6 +212,9 @@ class DemoGUI:
         # Create main window
         self._create_window()
         
+        # Set main window as primary
+        dpg.set_primary_window("main_window", True)
+        
         # Start demo thread
         self.demo_thread = threading.Thread(target=self._demo_loop, daemon=True)
         self.demo_thread.start()
@@ -220,7 +223,7 @@ class DemoGUI:
         """Create the main window layout."""
         # Create main window
         with dpg.window(label="Whisprd Demo - Real-time Dictation System", tag="main_window", 
-                       width=1200, height=800, no_close=True, no_collapse=True):
+                       width=-1, height=-1, no_close=True, no_collapse=True):
             
             # Create header with status indicator
             with dpg.group(horizontal=True):
@@ -234,13 +237,13 @@ class DemoGUI:
             with dpg.group(horizontal=True):
                 
                 # Left panel (controls and status)
-                with dpg.child_window(width=400, height=700):
+                with dpg.child_window(width=400, height=-1):
                     self._create_control_panel()
                     dpg.add_separator()
                     self._create_status_panel()
                 
                 # Right panel (transcription and config)
-                with dpg.child_window(width=780, height=700):
+                with dpg.child_window(width=-1, height=-1):
                     self._create_transcription_panel()
                     dpg.add_separator()
                     self._create_config_panel()

@@ -2,20 +2,20 @@
 
 # Audio settings
 audio:
-  sample_rate: 16000
+  sample_rate: 48000
   channels: 1
-  buffer_size: 8000  # 0.5 seconds at 16kHz
+  buffer_size: 24000  # 0.5 seconds at 48kHz
   device: null  # null = default device
 
 # Whisper settings
 whisper:
-  model_size: "small"  # tiny, base, small, medium, large
+  model_size: "large"  # tiny, base, small, medium, large - using largest model for RTX 4070 Ti SUPER
   language: "en"
   beam_size: 5
   best_of: 5
   temperature: 0.0
   condition_on_previous_text: false
-  initial_prompt: null
+  initial_prompt: "The following is a dictation of clear speech without background music or noise."
   
   # GPU/CUDA settings
   use_cuda: true  # Enable CUDA GPU acceleration (auto-fallback to CPU if not available)
@@ -33,8 +33,8 @@ whisprd:
   # Command mode activation word
   command_mode_word: "computer"
   
-  # Minimum confidence threshold for transcription
-  confidence_threshold: 0.8
+  # Minimum confidence threshold for transcription (higher = more selective)
+  confidence_threshold: 0.9
   
   # Auto-punctuation settings
   auto_punctuation: true
@@ -43,8 +43,8 @@ whisprd:
   question_words: ["question mark", "question"]
   
   # Pause duration settings
-  pause_duration: 1.0  # seconds of silence to trigger utterance boundary
-  min_utterance_duration: 0.7  # minimum utterance length to transcribe
+  pause_duration: 1.5  # seconds of silence to trigger utterance boundary (longer pause for cleaner cuts)
+  min_utterance_duration: 1.0  # minimum utterance length to transcribe (avoid short noise)
   overlap_duration: 0.2  # seconds to keep as overlap between utterances
 
 # Voice commands mapping

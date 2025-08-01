@@ -139,6 +139,9 @@ class WhisprdGUI:
         
         # Create main window
         self.main_window = WhisprdMainWindow(self)
+        
+        # Set main window as primary to fill viewport
+        dpg.set_primary_window("main_window", True)
     
     def _signal_handler(self, signum: int, frame: Any) -> None:
         """Handle system signals."""

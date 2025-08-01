@@ -25,7 +25,7 @@ class WhisprdMainWindow:
         """Create the main window layout."""
         # Create main window
         with dpg.window(label="Whisprd - Real-time Dictation System", tag="main_window", 
-                       width=1200, height=800, no_close=True, no_collapse=True):
+                       width=-1, height=-1, no_close=True, no_collapse=True):
             
             # Create header with status indicator
             with dpg.group(horizontal=True):
@@ -39,13 +39,13 @@ class WhisprdMainWindow:
             with dpg.group(horizontal=True):
                 
                 # Left panel (controls and status)
-                with dpg.child_window(width=400, height=700):
+                with dpg.child_window(width=400, height=-1):
                     self.control_panel = ControlPanel(self)
                     dpg.add_separator()
                     self.status_panel = StatusPanel(self)
                 
                 # Right panel (transcription and config)
-                with dpg.child_window(width=780, height=700):
+                with dpg.child_window(width=-1, height=-1):
                     self.transcription_panel = TranscriptionPanel(self)
                     dpg.add_separator()
                     self.config_panel = ConfigPanel(self)
